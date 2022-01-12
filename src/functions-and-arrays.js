@@ -153,12 +153,7 @@ function doesWordExist(arr, word) {
     return null
   }
 
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i] === word) {
-      return true;
-    }
-  }
-  return false
+  return arr.includes(word)
 }
 
 
@@ -214,26 +209,62 @@ const matrix = [
   [1, 70, 54, 71, 83, 51, 54, 69, 16, 92, 33, 48, 61, 43, 52, 1, 89, 19, 67, 48]
 ];
 
+function transpose(matrix) {
+
+  for (let i = 0; i < matrix.length; i++) {
+    for (let j = 0; j < i; j++) {
+      const temp = matrix[i][j];
+      matrix[i][j] = matrix[j][i];
+      matrix[j][i] = temp;
+    }
+  }
+  return matrix;
+}
+
 function greatestProduct(arr) {
-  let matrixNum;
+  let greatestProduct = 0
+  
   for(let i = 0; i < arr.length; i++) {
-    let innerArr = arr[i];
-    for(let j = 0; j < innerArr.length; j++){
-      if (i === 0 && j === 0) {
-        matrixNum = arr[0][0]
+    for(let j = 3; j < arr[i].length - 4; j++) {
+      let left = arr[i][j] * arr[i][j-1] * arr[i][j-2] * arr[i][j-3]
+      let right = arr[i][j] * arr[i][j+1] * arr[i][j+2] * arr[i][j+3]
+      if (left > greatestProduct) {
+        greatestProduct = left
       }
-      if (innerArr[j] !== matrixNum) {
-        return false;
+      if (right > greatestProduct) {
+        greatestProduct = right
       }
     }
   }
-  if (matrixNum === 1) {
-    return 1
-  } else if (matrixNum === 2) {
-    return 16
+
+  let newArr = transpose(arr);
+
+  for(let i = 0; i < newArr.length; i++) {
+    for(let j = 3; j < newArr[i].length - 4; j++) {
+      let left = newArr[i][j] * newArr[i][j-1] * newArr[i][j-2] * newArr[i][j-3]
+      let right = newArr[i][j] * newArr[i][j+1] * newArr[i][j+2] * newArr[i][j+3]
+      if (left > greatestProduct) {
+        greatestProduct = left
+      }
+      if (right > greatestProduct) {
+        greatestProduct = right
+      }
+    }
   }
+
+  return greatestProduct;
 }
 
+
+
+[
+  [1, 2, 3, 4, 5, 6], 
+  [1, 2, 3, 4, 5, 6], 
+  [1, 2, 3, 4, 5, 6], 
+  [1, 2, 3, 4, 5, 6], 
+  [1, 2, 3, 4, 5, 6], 
+  [1, 2, 3, 4, 5, 6], 
+]
 
 
 
